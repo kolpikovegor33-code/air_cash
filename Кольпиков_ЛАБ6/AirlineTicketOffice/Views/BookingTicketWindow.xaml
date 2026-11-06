@@ -1,0 +1,229 @@
+<Window x:Class="AirlineTicketOffice.Views.BookingTicketWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Оформление и бронирование авиабилета" Height="680" Width="960"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="38"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#0F172A" Padding="15,0">
+            <Grid VerticalAlignment="Center">
+                <TextBlock x:Name="TitleTextBlock" Text="Оформление авиабилета на рейс SU-1124 (Москва SVO → Сочи AER)"
+                           Foreground="White" FontSize="13.5" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+            <Grid Grid.Row="1" Margin="25,18,25,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="1.0*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="1. Данные пассажира" Foreground="#0F172A" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="85"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="PassengerComboBox" Height="36" FontSize="13" VerticalContentAlignment="Center"
+                                  SelectionChanged="Passenger_SelectionChanged" DisplayMemberPath="ShortInfo"/>
+                        <Button Grid.Column="1" Content="+ Новый" Margin="8,0,0,0" Height="36" Background="#F1F5F9"
+                                Foreground="#0284C7" FontWeight="SemiBold" Cursor="Hand" Click="NewPassenger_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock x:Name="PassengerDetailsTextBlock" Text="Пассажир: Иванов Алексей Петрович, Дата рожд.: 14.07.1988" Foreground="#1E293B" FontSize="12.5" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="PassengerDocPhoneTextBlock" Text="Документ: Паспорт РФ 4514 892341 | Тел.: +7 (915) 772-14-55" Foreground="#64748B" FontSize="12" Margin="0,3,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="2. Класс обслуживания и тариф на багаж" Foreground="#0F172A" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Класс обслуживания:" Foreground="#475569" FontSize="12" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="ServiceClassComboBox" Height="36" FontSize="13" VerticalContentAlignment="Center" SelectionChanged="ClassOrBaggage_Changed">
+                                <ComboBoxItem Content="Эконом-класс" IsSelected="True"/>
+                                <ComboBoxItem Content="Бизнес-класс"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Тариф багажа:" Foreground="#475569" FontSize="12" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="BaggageTariffComboBox" Height="36" FontSize="13" VerticalContentAlignment="Center"
+                                      DisplayMemberPath="DisplayName" SelectionChanged="ClassOrBaggage_Changed"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="3. Способ оплаты и оформление" Foreground="#0F172A" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <StackPanel Margin="0,0,0,16">
+                        <TextBlock Text="Способ оплаты:" Foreground="#475569" FontSize="12" Margin="0,0,0,4"/>
+                        <ComboBox x:Name="PaymentMethodComboBox" Height="36" FontSize="13" VerticalContentAlignment="Center">
+                            <ComboBoxItem Content="Банковская карта (Эквайринг)" IsSelected="True"/>
+                            <ComboBoxItem Content="Наличный расчёт"/>
+                            <ComboBoxItem Content="Безналичный расчёт (для юр. лиц)"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Border Background="#F0F9FF" BorderBrush="#BAE6FD" BorderThickness="1" CornerRadius="8" Padding="14,12">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,6">
+                                <TextBlock Text="Тариф авиабилета:" Foreground="#475569" FontSize="13"/>
+                                <TextBlock x:Name="BasePriceTextBlock" Text="6 450.00 ₽" Foreground="#0F172A" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <TextBlock x:Name="BaggageFeeLabelTextBlock" Text="Багажный сбор (23 кг):" Foreground="#475569" FontSize="13"/>
+                                <TextBlock x:Name="BaggageFeeTextBlock" Text="0.00 ₽" Foreground="#0F172A" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Separator Background="#BAE6FD" Margin="0,2,0,8"/>
+                            <Grid>
+                                <TextBlock Text="ИТОГО К ОПЛАТЕ:" Foreground="#0369A1" FontSize="14" FontWeight="Bold"/>
+                                <TextBlock x:Name="TotalPriceTextBlock" Text="6 450.00 ₽" Foreground="#0284C7" FontSize="17" FontWeight="Bold" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Border Grid.Column="2" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="16">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Схема салона (Airbus A320)" Foreground="#0F172A" FontSize="14" FontWeight="Bold"/>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,15">
+                            <Border Width="16" Height="16" Background="#0284C7" CornerRadius="4" Margin="0,0,6,0"/>
+                            <TextBlock Text="Выбрано" Foreground="#475569" FontSize="12" Margin="0,0,14,0"/>
+
+                            <Border Width="16" Height="16" Background="White" BorderBrush="#94A3B8" BorderThickness="1" CornerRadius="4" Margin="0,0,6,0"/>
+                            <TextBlock Text="Свободно" Foreground="#475569" FontSize="12" Margin="0,0,14,0"/>
+
+                            <Border Width="16" Height="16" Background="#CBD5E1" CornerRadius="4" Margin="0,0,6,0"/>
+                            <TextBlock Text="Занято" Foreground="#475569" FontSize="12"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="▲ НОСОВАЯ ЧАСТЬ САМОЛЕТА ▲" Foreground="#94A3B8" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                            <Grid Width="280" Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28"/>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="26"/>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="38"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="A" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                                <TextBlock Grid.Column="2" Text="B" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                                <TextBlock Grid.Column="3" Text="C" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                                <TextBlock Grid.Column="4" Text="|" HorizontalAlignment="Center" Foreground="#CBD5E1"/>
+                                <TextBlock Grid.Column="5" Text="D" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                                <TextBlock Grid.Column="6" Text="E" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                                <TextBlock Grid.Column="7" Text="F" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#64748B"/>
+                            </Grid>
+
+                            <ItemsControl x:Name="SeatsMatrixItemsControl">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="280" Margin="0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="28"/>
+                                                <ColumnDefinition Width="38"/>
+                                                <ColumnDefinition Width="38"/>
+                                                <ColumnDefinition Width="38"/>
+                                                <ColumnDefinition Width="26"/>
+                                                <ColumnDefinition Width="38"/>
+                                                <ColumnDefinition Width="38"/>
+                                                <ColumnDefinition Width="38"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding RowNumber}" VerticalAlignment="Center" Foreground="#94A3B8" FontSize="11" FontWeight="SemiBold"/>
+
+                                            <Button Grid.Column="1" Content="{Binding SeatA.Code}" Background="{Binding SeatA.Background}" Foreground="{Binding SeatA.Foreground}"
+                                                    BorderBrush="{Binding SeatA.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatA.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatA.Code}"/>
+
+                                            <Button Grid.Column="2" Content="{Binding SeatB.Code}" Background="{Binding SeatB.Background}" Foreground="{Binding SeatB.Foreground}"
+                                                    BorderBrush="{Binding SeatB.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatB.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatB.Code}"/>
+
+                                            <Button Grid.Column="3" Content="{Binding SeatC.Code}" Background="{Binding SeatC.Background}" Foreground="{Binding SeatC.Foreground}"
+                                                    BorderBrush="{Binding SeatC.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatC.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatC.Code}"/>
+
+                                            <TextBlock Grid.Column="4" Text="" HorizontalAlignment="Center"/>
+
+                                            <Button Grid.Column="5" Content="{Binding SeatD.Code}" Background="{Binding SeatD.Background}" Foreground="{Binding SeatD.Foreground}"
+                                                    BorderBrush="{Binding SeatD.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatD.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatD.Code}"/>
+
+                                            <Button Grid.Column="6" Content="{Binding SeatE.Code}" Background="{Binding SeatE.Background}" Foreground="{Binding SeatE.Foreground}"
+                                                    BorderBrush="{Binding SeatE.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatE.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatE.Code}"/>
+
+                                            <Button Grid.Column="7" Content="{Binding SeatF.Code}" Background="{Binding SeatF.Background}" Foreground="{Binding SeatF.Foreground}"
+                                                    BorderBrush="{Binding SeatF.BorderBrush}" BorderThickness="1" Height="28" Width="34" FontSize="11" FontWeight="SemiBold"
+                                                    IsEnabled="{Binding SeatF.IsEnabled}" Click="Seat_Click" Tag="{Binding SeatF.Code}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="▼ ХВОСТОВАЯ ЧАСТЬ ▼" Foreground="#94A3B8" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                        </StackPanel>
+
+                        <Border Grid.Row="3" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock x:Name="SelectedSeatTextBlock" Text="Выбранное место: 12A (у окна, эконом-класс)" Foreground="#0F172A" FontSize="13" FontWeight="Bold"/>
+                                <TextBlock Text="Статус бронирования: Свободно для продажи" Foreground="#059669" FontSize="12" FontWeight="SemiBold" Margin="0,3,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" CornerRadius="0,0,9,9" Padding="25,0">
+                <Grid VerticalAlignment="Center">
+                    <Button Content="Отмена" Width="90" Height="36" Background="White" Foreground="#475569"
+                            BorderBrush="#CBD5E1" FontWeight="SemiBold" Cursor="Hand" HorizontalAlignment="Left" Click="Close_Click">
+                        <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style></Button.Resources>
+                    </Button>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="📑 Забронировать рейс (Срок 48ч)" Height="38" Padding="16,0" Background="#D97706" Foreground="White"
+                                BorderThickness="0" FontWeight="Bold" FontSize="13" Cursor="Hand" Margin="0,0,10,0" Click="CreateBooking_Click">
+                            <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style></Button.Resources>
+                        </Button>
+
+                        <Button Content="💳 Принять оплату и выписать билет" Height="38" Padding="18,0" Background="#0284C7" Foreground="White"
+                                BorderThickness="0" FontWeight="Bold" FontSize="13" Cursor="Hand" Click="IssueTicket_Click">
+                            <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style></Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+</Window>

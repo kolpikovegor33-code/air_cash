@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AirlineTicketOffice.Tests/AirlineTicketOffice.Tests.csproj" />
+  <Project Path="AirlineTicketOffice/AirlineTicketOffice.csproj" />
+</Solution>
